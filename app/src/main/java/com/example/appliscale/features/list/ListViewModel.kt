@@ -18,9 +18,4 @@ class ListViewModel(
         .catch { error ->
             Log.e("error on list", null, error)
             emit(ListUiState.Error(error.message ?: "An unknown error occurred")) }
-        .stateIn(
-            viewModelScope,
-            SharingStarted.Lazily,
-            ListUiState.Loading
-        )
 }

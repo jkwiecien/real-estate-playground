@@ -8,6 +8,7 @@ import com.example.appliscale.api.model.Listing
 import com.example.appliscale.features.list.ListUiState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -28,7 +29,7 @@ class DetailsViewModel(
 
     private val listingIdMutableFlow = MutableStateFlow(0)
     @OptIn(ExperimentalCoroutinesApi::class)
-    val uiStateFlow: StateFlow<DetailsUiState> = listingIdMutableFlow
+    val uiStateFlow: Flow<DetailsUiState> = listingIdMutableFlow
         .filter { it != 0 }
         .flatMapLatest { id ->
             repository.getListingDetails(id)
@@ -40,11 +41,6 @@ class DetailsViewModel(
                     emit(DetailsUiState.Error(error.message ?: "An unknown error occurred"))
                 }
         }
-        .stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.Lazily,
-            initialValue = DetailsUiState.Loading
-        )
 
     init {
         listingIdMutableFlow.update { listingId }

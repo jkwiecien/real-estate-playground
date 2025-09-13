@@ -63,7 +63,7 @@ fun DetailsScreen(
     viewModel: DetailsViewModel,
     onBackClick: () -> Unit
 ) {
-    val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle()
+    val uiState by viewModel.uiStateFlow.collectAsStateWithLifecycle(DetailsUiState.Loading)
 
     Surface(Modifier.fillMaxSize()) {
         when (val state = uiState) {

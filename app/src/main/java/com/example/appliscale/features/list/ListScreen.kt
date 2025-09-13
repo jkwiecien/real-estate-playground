@@ -22,6 +22,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.appliscale.api.model.Listing
+import com.example.appliscale.features.details.DetailsUiState
+import com.example.appliscale.ui.CircularProgressBox
+import com.example.appliscale.ui.ErrorBox
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -29,7 +32,7 @@ fun ListScreen(
     viewModel: ListViewModel,
     onItemClick: (Int) -> Unit
 ) {
-    val uiState by viewModel.listUiStateFlow.collectAsStateWithLifecycle()
+    val uiState by viewModel.listUiStateFlow.collectAsStateWithLifecycle(ListUiState.Loading)
 
     Scaffold(
         topBar = {
@@ -49,12 +52,8 @@ fun ListScreen(
             contentAlignment = Alignment.Center
         ) {
             when (val state = uiState) {
-                is ListUiState.Loading -> CircularProgressIndicator()
-                is ListUiState.Error -> Text(
-                    text = state.message,
-                    color = MaterialTheme.colorScheme.error
-                )
-
+                is ListUiState.Loading -> CircularProgressBox(Modifier.fillMaxSize())
+                is ListUiState.Error -> ErrorBox(state.message, Modifier.fillMaxSize())
                 is ListUiState.Success -> {
                     ListingList(listings = state.listings, onItemClick = onItemClick)
                 }
