@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">Appliscale</string>
     <string name="template_rooms">%1$d rooms</string>
+    <string name="label_rooms">Rooms</string>
+    <string name="label_bedrooms">Bedrooms</string>
+    <string name="label_area">Area</string>
+    <string name="label_price">Price</string>
     <string name="template_area">%1$d m²</string>
 </resources>
